@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Cloudburo App Platform Regression Test Suite">
+  <parameter name="testfile" value="initialload" />
+  <test name="Basic Customer Tests" preserve-order="true">
+    <parameter name="listvalue1" value="surname" />
+    <parameter name="listvalue2" value="name" />
+    <parameter name="collection" value="customers" /> 
+    <parameter name="url" value="#customers" />  
+    <parameter name="dbobject" value="com.cloudburo.test.dataobj.CustomerDBObject" />
+    <classes>
+      <class name="com.cloudburo.test.TestDriver">
+        <methods>
+          <include name="beforeSuite"/>
+          <include name="testBaseContentDisplay"/>
+          <include name="testModifyRecordInPlaceEditor"/>
+          <include name="testModifyCancelRecordInPlaceEditor"/>
+          <include name="testInsertDeleteRecord"/>
+          <include name="testInsertCancelRecord"/>
+          <include name="afterSuite"/>
+        </methods>
+      </class> 
+    </classes>
+  </test> 
+  <test name="Basic Services Tests" preserve-order="true">
+    <parameter name="listvalue1" value="category" />
+    <parameter name="listvalue2" value="name" />
+    <parameter name="collection" value="services" />
+    <parameter name="url" value="#services" />
+    <parameter name="dbobject" value="com.cloudburo.test.dataobj.ServiceTemplateDBObject" />
+    <classes>
+      <class name="com.cloudburo.test.TestDriver">
+        <methods>
+          <include name="testBaseContentDisplay"/>
+          <include name="testModifyRecordInPlaceEditor"/>
+          <include name="testModifyCancelRecordInPlaceEditor"/>
+          <include name="testInsertDeleteRecord"/>
+          <include name="testInsertCancelRecord"/>
+          <include name="afterSuite"/>
+          <include name="beforeSuite"/>
+        </methods>
+      </class> 
+    </classes>
+  </test> 
+</suite> 

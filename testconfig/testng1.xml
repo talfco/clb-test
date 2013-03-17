@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Cloudburo Regression Test Suite for Service Capability">
+  <test name="Basic ServiceTemplate Tests" preserve-order="true">
+    <parameter name="listvalue1" value="category" />
+    <parameter name="listvalue2" value="name" />
+    <parameter name="collection" value="serviceTemplates" />
+    <parameter name="url" value="#serviceTemplates" />
+    <parameter name="dbobject" value="com.cloudburo.test.dataobj.ServiceTemplateDBObject" />  
+    <classes>
+      <class name="com.cloudburo.test.TestDriver">
+        <methods>
+          <include name="testBaseContentDisplay"/>
+          <include name="testModifyRecordInPlaceEditor"/>
+          <include name="testModifyCancelRecordInPlaceEditor"/>
+          <include name="testInsertDeleteRecord"/>
+          <include name="testInsertCancelRecord"/>
+          <include name="afterSuite"/>
+          <include name="beforeSuite"/>
+        </methods>
+      </class> <!-- com.cloudburo.test.NGTest -->
+    </classes>
+  </test> 
+</suite> 
