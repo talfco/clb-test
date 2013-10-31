@@ -18,30 +18,7 @@ import com.mongodb.DBObject;
 
 
 public class CSVTestDataLoader {
-    public CellProcessor[] CustomerDBObjectProcessors = new CellProcessor[] {
-        new StrMinMax(1,40),  // Expect at least a name with 1-40 characters
-        new StrMinMax(1,40),  // Expect at least a surname with 1-40 characters
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        new ParseDate("dd.MM.yyyy")
-    };
-    public CellProcessor[] ServiceTemplateDBObjectProcessors = new CellProcessor[] {
-        new StrMinMax(1,40),  // Expect at least a name with 1-40 characters
-        null,  
-        null,
-        null,
-        null
-    };
-    public CellProcessor[] ProductTypeDBObjectProcessors = new CellProcessor[] {
-            new StrMinMax(1,40),  // Expect at least a name with 1-40 characters
-            null,  
-            null
-        };
+
     public List<DBObject> loadTestDataSet(String set, DomainDBObject dboClass) throws Exception {
     	List<DBObject> list = new ArrayList<DBObject>();
     	ICsvBeanReader inFile = new CsvBeanReader(new FileReader("testdata/"+dboClass.getClass().getName()+"-"+set+".csv"), 
