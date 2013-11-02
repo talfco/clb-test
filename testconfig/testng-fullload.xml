@@ -8,6 +8,7 @@
   <parameter name="storeinstance" value="cloudburo" />
   <parameter name="storeuser" value="user1" />
   <parameter name="storepassword" value="carmen" />
+  <parameter name="storemanager" value="com.cloudburo.test.db.MongoDBStorageManager" />
   <!-- beforeSuite hat alle load Klassen -->
   <test name="Loading Customers" preserve-order="true">
     <parameter name="listvalue1" value="surname" />

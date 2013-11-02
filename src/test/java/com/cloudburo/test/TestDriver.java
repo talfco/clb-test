@@ -2,7 +2,6 @@ package com.cloudburo.test;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -22,7 +21,7 @@ import org.testng.annotations.AfterSuite;
 
 import com.cloudburo.test.dataobj.CustomerDBObject;
 import com.cloudburo.test.dataobj.ServiceTemplateDBObject;
-import com.cloudburo.test.db.MongoDBStorageManager;
+import com.cloudburo.test.db.PersistentStoreManager;
 import com.cloudburo.test.domain.DomainDBObject;
 import com.cloudburo.test.load.CSVTestDataLoader;
 import com.cloudburo.test.page.StartPage;
@@ -30,35 +29,30 @@ import com.cloudburo.test.page.StartPage;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class TestDriver {
+public class TestDriver extends RootDriver {
 
   private static final Logger logger = Logger.getLogger(TestDriver.class.getCanonicalName());
   
   private static WebDriver driver;	
-  private static MongoDBStorageManager dbcontroller;
+  private static PersistentStoreManager persistentStoreManager;
   
   private  String appURL = ""; 
 	
-  @Parameters({"testfile","appurl","storeendpoint","storeport","storeinstance","storeuser","storepassword"})
+  @Parameters({"testfile","appurl","storeendpoint","storeport","storeinstance","storeuser","storepassword","storemanager"})
   @BeforeSuite
   public void beforeSuite(String testfile,String appurl, String storeendpoint,String storeport,String storeinstance,
-		  String storeuser,String storepassword) throws Exception {
+		  String storeuser,String storepassword, String storemanager) throws Exception {
 	  logger.log(Level.INFO, "Using {0}","testset '"+testfile+"' connecting to "+storeendpoint+":"+storeport+
 			  "/"+storeinstance+"@"+storeuser);
 	  
 	  this.appURL = appurl;
-	  HashMap<String,String> props = new HashMap<String,String>();
-	  props.put(MongoDBStorageManager.STORE_ENDPOINT, storeendpoint);
-	  props.put(MongoDBStorageManager.STORE_PORT, storeport);
-	  props.put(MongoDBStorageManager.STORE_INSTANCENAME, storeinstance);
-	  props.put(MongoDBStorageManager.STORE_USER, storeuser);
-	  props.put(MongoDBStorageManager.STORE_PASSWORD, storepassword);
 	  
 	  // Load the Test Data
-	  dbcontroller = new MongoDBStorageManager();
-	  dbcontroller.connectDB(props);
-	  dbcontroller.loadTestDataSet(testfile,new CustomerDBObject());
-	  dbcontroller.loadTestDataSet(testfile,new ServiceTemplateDBObject());
+	  persistentStoreManager = this.getPersistentStoreManager(storeendpoint, storeport, storeinstance, storeuser, 
+			  storepassword, storemanager);
+	  
+	  persistentStoreManager.loadTestDataSet(testfile,new CustomerDBObject());
+	  persistentStoreManager.loadTestDataSet(testfile,new ServiceTemplateDBObject());
 	  
 	  // Connect to the Firefox Browser
 	  driver = new FirefoxDriver();
@@ -146,7 +140,7 @@ public class TestDriver {
 	  // The selected entry must be the new one added
 	  WebElement selectedEntry = page.getSelectedListEntry();
 	  String uid = selectedEntry.getAttribute("id");
-	  BSONObject dobj = dbcontroller.getCollectionObject(collection, uid);
+	  BSONObject dobj = persistentStoreManager.getCollectionObject(collection, uid);
 	  // Iterate once through the test set
 	  it = elem.keySet().iterator();
 	  while (it.hasNext()) {
@@ -174,7 +168,7 @@ public class TestDriver {
 	  welem = page.getMessageAreaCloseIcon();
 	  welem.click();
 	  // Now the selected entry shouldnt be anmore in the db
-	  dobj = dbcontroller.getCollectionObject(collection, uid);
+	  dobj = persistentStoreManager.getCollectionObject(collection, uid);
 	  Assert.assertNull(dobj);
 	  checkPrimaryListAgainstPrimayContent(listvalue1,listvalue2,collection,-1);
 
@@ -292,7 +286,7 @@ public class TestDriver {
 		  chfb.click();		
 	  }
 	  // Retrieve the stored value and check against the one which we entered
-	  BSONObject obj = dbcontroller.getCollectionObject(collection, id);
+	  BSONObject obj = persistentStoreManager.getCollectionObject(collection, id);
 	  it = elem.keySet().iterator();
 	  
 	  while (it.hasNext()) {
@@ -312,7 +306,7 @@ public class TestDriver {
   private void checkPrimaryListAgainstPrimayContent(String listvalue1, String listvalue2, String collection, int defaultIndex) throws Exception{
 	  StartPage page = new StartPage(driver);
 	  List<WebElement> list = page.getPrimaryListEntries();
-	  Assert.assertEquals(list.size(), dbcontroller.countCollectionObjects(collection)); 
+	  Assert.assertEquals(list.size(), persistentStoreManager.countCollectionObjects(collection)); 
 	  WebElement nxtElem, elem;
 	  if (defaultIndex>=0) {
 	    // Test if the defaultIndex is already correctly selected
@@ -335,7 +329,7 @@ public class TestDriver {
 	  String id = elem.getAttribute("id");
       Assert.assertNotEquals(id, null);
       // Retrieve the value from the DB
-      BSONObject obj = dbcontroller.getCollectionObject(collection, id);
+      BSONObject obj = persistentStoreManager.getCollectionObject(collection, id);
       // Check if the selected list entry is showing the correct values as 
       // retrieved from the DB
       String listPrefix = (String)obj.get(listvalue1);

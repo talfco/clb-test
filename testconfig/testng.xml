@@ -8,6 +8,7 @@
   <parameter name="storeinstance" value="cloudburo" />
   <parameter name="storeuser" value="user1" />
   <parameter name="storepassword" value="carmen" />
+  <parameter name="storemanager" value="com.cloudburo.test.db.MongoDBStorageManager" />
   <test name="Basic Customer Tests" preserve-order="true">
     <parameter name="listvalue1" value="surname" />
     <parameter name="listvalue2" value="name" />
