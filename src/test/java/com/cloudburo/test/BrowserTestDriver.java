@@ -23,7 +23,6 @@ import com.cloudburo.test.base.BaseTestDriver;
 import com.cloudburo.test.base.BaseDBObject;
 import com.cloudburo.test.dataobj.CustomerDBObject;
 import com.cloudburo.test.dataobj.ServiceTemplateDBObject;
-import com.cloudburo.test.db.PersistentStoreManager;
 import com.cloudburo.test.load.CSVTestDataLoader;
 import com.cloudburo.test.page.StartPage;
 
