@@ -12,6 +12,7 @@ import org.supercsv.cellprocessor.ift.CellProcessor;
 import com.cloudburo.test.base.BaseDBObject;
 
 
+@SuppressWarnings("serial")
 public class CustomerDBObject extends BaseDBObject  {
 	
 	// The CSV Cell Processor
