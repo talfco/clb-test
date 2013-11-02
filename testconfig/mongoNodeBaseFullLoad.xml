@@ -10,14 +10,9 @@
   <parameter name="storepassword" value="carmen" />
   <parameter name="storemanager" value="com.cloudburo.test.db.MongoDBStorageManager" />
   <!-- beforeSuite hat alle load Klassen -->
-  <test name="Loading Customers" preserve-order="true">
-    <parameter name="listvalue1" value="surname" />
-    <parameter name="listvalue2" value="name" />
-    <parameter name="collection" value="customers" /> 
-    <parameter name="url" value="#customers" />  
-    <parameter name="dbobject" value="com.cloudburo.test.dataobj.CustomerDBObject" />
+  <test name="Initial Load of " preserve-order="true">
     <classes>
-      <class name="com.cloudburo.test.BrowserTestDriver">
+      <class name="com.cloudburo.test.InitialLoadTestDriver">
         <methods>
           <include name="beforeSuite"/>
         </methods>
