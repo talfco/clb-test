@@ -9,6 +9,8 @@ import org.supercsv.cellprocessor.ParseDate;
 import org.supercsv.cellprocessor.constraint.StrMinMax;
 import org.supercsv.cellprocessor.ift.CellProcessor;
 
+import com.cloudburo.test.domain.DomainDBObject;
+
 
 public class CustomerDBObject extends DomainDBObject  {
 	

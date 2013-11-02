@@ -1,4 +1,4 @@
-package com.cloudburo.test.dataobj;
+package com.cloudburo.test.domain;
 
 import com.mongodb.BasicDBObject;
 import org.supercsv.cellprocessor.ift.CellProcessor;

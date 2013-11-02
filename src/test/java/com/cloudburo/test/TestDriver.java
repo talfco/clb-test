@@ -2,6 +2,7 @@ package com.cloudburo.test;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -13,7 +14,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
-
 import org.testng.Assert;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -21,27 +21,46 @@ import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.AfterSuite;
 
 import com.cloudburo.test.dataobj.CustomerDBObject;
-import com.cloudburo.test.dataobj.DomainDBObject;
 import com.cloudburo.test.dataobj.ServiceTemplateDBObject;
-import com.cloudburo.test.db.MogoDBStorageManager;
+import com.cloudburo.test.db.MongoDBStorageManager;
+import com.cloudburo.test.domain.DomainDBObject;
 import com.cloudburo.test.load.CSVTestDataLoader;
 import com.cloudburo.test.page.StartPage;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class TestDriver {
-	
+
+  private static final Logger logger = Logger.getLogger(TestDriver.class.getCanonicalName());
+  
   private static WebDriver driver;	
-  private static MogoDBStorageManager dbcontroller;
-  //private static String HOST = "http://stark-coast-2148.herokuapp.com"; // http://localhost:5000
-  private static String HOST = "http://localhost:5000"; // http://localhost:5000
+  private static MongoDBStorageManager dbcontroller;
+  
+  private  String appURL = ""; 
 	
-  @Parameters({"testfile"})
+  @Parameters({"testfile","appurl","storeendpoint","storeport","storeinstance","storeuser","storepassword"})
   @BeforeSuite
-  public void beforeSuite(String testfile) throws Exception {
-	  System.out.println("Using testset "+testfile);
-	  dbcontroller = new MogoDBStorageManager();
-	  dbcontroller.connectDB();
+  public void beforeSuite(String testfile,String appurl, String storeendpoint,String storeport,String storeinstance,
+		  String storeuser,String storepassword) throws Exception {
+	  logger.log(Level.INFO, "Using {0}","testset '"+testfile+"' connecting to "+storeendpoint+":"+storeport+
+			  "/"+storeinstance+"@"+storeuser);
+	  
+	  this.appURL = appurl;
+	  HashMap<String,String> props = new HashMap<String,String>();
+	  props.put(MongoDBStorageManager.STORE_ENDPOINT, storeendpoint);
+	  props.put(MongoDBStorageManager.STORE_PORT, storeport);
+	  props.put(MongoDBStorageManager.STORE_INSTANCENAME, storeinstance);
+	  props.put(MongoDBStorageManager.STORE_USER, storeuser);
+	  props.put(MongoDBStorageManager.STORE_PASSWORD, storepassword);
+	  
+	  // Load the Test Data
+	  dbcontroller = new MongoDBStorageManager();
+	  dbcontroller.connectDB(props);
 	  dbcontroller.loadTestDataSet(testfile,new CustomerDBObject());
 	  dbcontroller.loadTestDataSet(testfile,new ServiceTemplateDBObject());
+	  
+	  // Connect to the Firefox Browser
 	  driver = new FirefoxDriver();
 	  driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
   }
@@ -56,7 +75,7 @@ public class TestDriver {
   @Test(description="Testing the basic list entry and content detail")
   public void testBaseContentDisplay(String listvalue1, String listvalue2, String collection,String url) throws Exception {
 	  
-	  driver.get(HOST+"/"+url);
+	  driver.get(appURL+"/"+url);
 	  StartPage page = new StartPage(driver);
 	  Thread.sleep(1000);
 	  WebElement elem = page.getActiveLevel2MenuEntry();
@@ -214,7 +233,7 @@ public class TestDriver {
 	  if ( calendar.get(Calendar.MONTH)+1<10) month +="0";
 	  month += calendar.get(Calendar.MONTH)+1;
 	  String value =  day + "."+ month + "."+calendar.get(Calendar.YEAR) ;
-	  System.out.println("Localized Date to "+value);
+	  logger.log(Level.INFO, "Localized Dat to {0}",value);
 	  return value;
   }
   
@@ -242,8 +261,8 @@ public class TestDriver {
 	  while (it.hasNext()) {
 		  String name = it.next();
 		  String value = (String)elem.get(name);
-		  System.out.println("Got "+name+" "+value);
-		  Calendar cal = Calendar.getInstance();
+		  logger.log(Level.INFO, "Got {0}", value);
+		  //Calendar cal = Calendar.getInstance();
 
 		  if (name.endsWith("date")) { 
 			  value = localizeDate((String)elem.get(name));
@@ -320,10 +339,10 @@ public class TestDriver {
       // Check if the selected list entry is showing the correct values as 
       // retrieved from the DB
       String listPrefix = (String)obj.get(listvalue1);
-      System.out.println("Testing list <-> detail content "+listPrefix);
+      logger.log(Level.INFO, "Testing list <-> detail content {0}",listPrefix);
       Assert.assertEquals(elem.getText().contains(listPrefix), true,"Comparing '"+elem.getText()+"' starts with '"+listPrefix+"'");
       listPrefix = (String)obj.get(listvalue2);
-      System.out.println("Testing list <-> detail content "+listPrefix);
+      logger.log(Level.INFO,"Testing list <-> detail content {0}",listPrefix);
       // Check if the H1 entry of the detail page is showing the entry
       // which is selected in the list. We use the id shown in the list
       Iterator<WebElement> it = page.getPrimaryContentH1().iterator();

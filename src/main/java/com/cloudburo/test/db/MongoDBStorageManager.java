@@ -1,12 +1,13 @@
 package com.cloudburo.test.db;
 
+import java.util.HashMap;
 import java.util.Iterator;
 
 import org.bson.BSONObject;
 import org.bson.types.ObjectId;
 
 import com.cloudburo.test.load.CSVTestDataLoader;
-import com.cloudburo.test.dataobj.DomainDBObject;
+import com.cloudburo.test.domain.DomainDBObject;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -14,14 +15,25 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 
-public class MogoDBStorageManager implements PersistentStoreManager {
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-	DB db;
+/**
+ * 
+ * @author Felix Kuestahler / Cloudburo.ch
+ * The MongoDBStorageManager will store the test data set in a nonSQL MongoDB
+ */
+public class MongoDBStorageManager implements PersistentStoreManager {
 	
-	public void connectDB() throws Exception {
-		Mongo mongo = new Mongo("ds029817.mongolab.com", 29817);
-		db = mongo.getDB("cloudburo");
-		boolean auth = db.authenticate("user1", "carmen".toCharArray());
+	private static final Logger logger = Logger.getLogger(MongoDBStorageManager.class.getCanonicalName());
+	
+	private DB db;
+	
+	public void connectDB(HashMap<String,String> connectionProps) throws Exception {	
+		Mongo mongo = new Mongo(connectionProps.get(PersistentStoreManager.STORE_ENDPOINT), 
+				Integer.parseInt(connectionProps.get(PersistentStoreManager.STORE_PORT)));
+		db = mongo.getDB(connectionProps.get(PersistentStoreManager.STORE_INSTANCENAME));
+		boolean auth = db.authenticate(connectionProps.get(PersistentStoreManager.STORE_USER), connectionProps.get(PersistentStoreManager.STORE_PASSWORD).toCharArray());
 		if (!auth) {
 			throw new Exception("Authentication to Mongo DB failed");
 		}
@@ -39,7 +51,7 @@ public class MogoDBStorageManager implements PersistentStoreManager {
         
 		// lets get all the documents in the collection and print them out
 		DBCursor cur = coll.find();
-		while (cur.hasNext()) { System.out.println(cur.next());}
+		while (cur.hasNext()) { logger.log(Level.INFO, "Inserted {0}",cur.next());}
 	}
 	
 	public BSONObject getCollectionObject(String collection, String id) throws Exception {

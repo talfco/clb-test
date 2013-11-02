@@ -2,6 +2,8 @@ package com.cloudburo.test.dataobj;
 import org.supercsv.cellprocessor.constraint.StrMinMax;
 import org.supercsv.cellprocessor.ift.CellProcessor;
 
+import com.cloudburo.test.domain.DomainDBObject;
+
 public class ServiceTemplateDBObject extends DomainDBObject {
 	
    private static final CellProcessor[] csvCellProcessor = new CellProcessor[] {

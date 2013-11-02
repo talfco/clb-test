@@ -5,12 +5,11 @@ import java.util.List;
 import java.util.ArrayList;
 
 import org.bson.BSONObject;
-
 import org.supercsv.io.CsvBeanReader;
 import org.supercsv.io.ICsvBeanReader;
 import org.supercsv.prefs.CsvPreference;
 
-import com.cloudburo.test.dataobj.DomainDBObject;
+import com.cloudburo.test.domain.DomainDBObject;
 
 
 public class CSVTestDataLoader {
