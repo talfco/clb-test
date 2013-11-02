@@ -16,7 +16,7 @@
     <parameter name="url" value="#customers" />  
     <parameter name="dbobject" value="com.cloudburo.test.dataobj.CustomerDBObject" />
     <classes>
-      <class name="com.cloudburo.test.TestDriver">
+      <class name="com.cloudburo.test.BrowserTestDriver">
         <methods>
           <include name="beforeSuite"/>
           <include name="testBaseContentDisplay"/>
@@ -36,7 +36,7 @@
     <parameter name="url" value="#services" />
     <parameter name="dbobject" value="com.cloudburo.test.dataobj.ServiceTemplateDBObject" />
     <classes>
-      <class name="com.cloudburo.test.TestDriver">
+      <class name="com.cloudburo.test.BrowserTestDriver">
         <methods>
           <include name="testBaseContentDisplay"/>
           <include name="testModifyRecordInPlaceEditor"/>

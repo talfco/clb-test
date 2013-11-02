@@ -17,7 +17,7 @@
     <parameter name="url" value="#customers" />  
     <parameter name="dbobject" value="com.cloudburo.test.dataobj.CustomerDBObject" />
     <classes>
-      <class name="com.cloudburo.test.TestDriver">
+      <class name="com.cloudburo.test.BrowserTestDriver">
         <methods>
           <include name="beforeSuite"/>
         </methods>

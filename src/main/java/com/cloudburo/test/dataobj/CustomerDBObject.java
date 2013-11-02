@@ -9,10 +9,10 @@ import org.supercsv.cellprocessor.ParseDate;
 import org.supercsv.cellprocessor.constraint.StrMinMax;
 import org.supercsv.cellprocessor.ift.CellProcessor;
 
-import com.cloudburo.test.domain.DomainDBObject;
+import com.cloudburo.test.base.BaseDBObject;
 
 
-public class CustomerDBObject extends DomainDBObject  {
+public class CustomerDBObject extends BaseDBObject  {
 	
 	// The CSV Cell Processor
 	private static final CellProcessor[] csvCellProcessor = new CellProcessor[] {

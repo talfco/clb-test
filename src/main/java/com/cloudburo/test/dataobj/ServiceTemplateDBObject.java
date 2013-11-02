@@ -2,9 +2,9 @@ package com.cloudburo.test.dataobj;
 import org.supercsv.cellprocessor.constraint.StrMinMax;
 import org.supercsv.cellprocessor.ift.CellProcessor;
 
-import com.cloudburo.test.domain.DomainDBObject;
+import com.cloudburo.test.base.BaseDBObject;
 
-public class ServiceTemplateDBObject extends DomainDBObject {
+public class ServiceTemplateDBObject extends BaseDBObject {
 	
    private static final CellProcessor[] csvCellProcessor = new CellProcessor[] {
 		        new StrMinMax(1,40),  // Expect at least a name with 1-40 characters

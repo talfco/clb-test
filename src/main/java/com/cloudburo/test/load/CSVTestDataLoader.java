@@ -9,12 +9,12 @@ import org.supercsv.io.CsvBeanReader;
 import org.supercsv.io.ICsvBeanReader;
 import org.supercsv.prefs.CsvPreference;
 
-import com.cloudburo.test.domain.DomainDBObject;
+import com.cloudburo.test.base.BaseDBObject;
 
 
 public class CSVTestDataLoader {
 
-    public List<BSONObject> loadTestDataSet(String set, DomainDBObject dboClass) throws Exception {
+    public List<BSONObject> loadTestDataSet(String set, BaseDBObject dboClass) throws Exception {
     	List<BSONObject> list = new ArrayList<BSONObject>();
     	ICsvBeanReader inFile = new CsvBeanReader(new FileReader("testdata/"+dboClass.getClass().getName()+"-"+set+".csv"), 
     			    CsvPreference.EXCEL_NORTH_EUROPE_PREFERENCE);

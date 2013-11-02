@@ -7,7 +7,7 @@ import org.bson.BSONObject;
 import org.bson.types.ObjectId;
 
 import com.cloudburo.test.load.CSVTestDataLoader;
-import com.cloudburo.test.domain.DomainDBObject;
+import com.cloudburo.test.base.BaseDBObject;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -39,7 +39,7 @@ public class MongoDBStorageManager implements PersistentStoreManager {
 		}
 	}	
 
-	public void loadTestDataSet( String dataset, DomainDBObject dbo) throws Exception{
+	public void loadTestDataSet( String dataset, BaseDBObject dbo) throws Exception{
 		DBCollection coll = db.getCollection(dbo.getDBCollectionName());
 		coll.drop();
 		coll = db.getCollection(dbo.getDBCollectionName());

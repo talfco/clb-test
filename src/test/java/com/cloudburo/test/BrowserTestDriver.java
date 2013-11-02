@@ -19,22 +19,22 @@ import org.testng.annotations.Test;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.AfterSuite;
 
+import com.cloudburo.test.base.BaseTestDriver;
+import com.cloudburo.test.base.BaseDBObject;
 import com.cloudburo.test.dataobj.CustomerDBObject;
 import com.cloudburo.test.dataobj.ServiceTemplateDBObject;
 import com.cloudburo.test.db.PersistentStoreManager;
-import com.cloudburo.test.domain.DomainDBObject;
 import com.cloudburo.test.load.CSVTestDataLoader;
 import com.cloudburo.test.page.StartPage;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class TestDriver extends RootDriver {
+public class BrowserTestDriver extends BaseTestDriver {
 
-  private static final Logger logger = Logger.getLogger(TestDriver.class.getCanonicalName());
+  private static final Logger logger = Logger.getLogger(BrowserTestDriver.class.getCanonicalName());
   
   private static WebDriver driver;	
-  private static PersistentStoreManager persistentStoreManager;
   
   private  String appURL = ""; 
 	
@@ -47,8 +47,7 @@ public class TestDriver extends RootDriver {
 	  
 	  this.appURL = appurl;
 	  
-	  // Load the Test Data
-	  persistentStoreManager = this.getPersistentStoreManager(storeendpoint, storeport, storeinstance, storeuser, 
+	  initalizePersistentStoreManager(storeendpoint, storeport, storeinstance, storeuser, 
 			  storepassword, storemanager);
 	  
 	  persistentStoreManager.loadTestDataSet(testfile,new CustomerDBObject());
@@ -83,7 +82,7 @@ public class TestDriver extends RootDriver {
   @Test(description="Testing the insert of a new entry")
   public void testInsertDeleteRecord(String listvalue1, String listvalue2,String collection, String dbobject) throws Exception {
 	  CSVTestDataLoader loader = new CSVTestDataLoader();
-	  List<BSONObject> list = loader.loadTestDataSet("insert1recordb",(DomainDBObject)Class.forName(dbobject).newInstance());
+	  List<BSONObject> list = loader.loadTestDataSet("insert1recordb",(BaseDBObject)Class.forName(dbobject).newInstance());
 	  StartPage page = new StartPage(driver);
 	  
 	  
@@ -236,9 +235,9 @@ public class TestDriver extends RootDriver {
 	  
 	  List<BSONObject> list = null;
 	  if (mode.equals("save"))
-		  list = loader.loadTestDataSet("insert1record",(DomainDBObject)Class.forName(dbObject).newInstance());
+		  list = loader.loadTestDataSet("insert1record",(BaseDBObject)Class.forName(dbObject).newInstance());
 	  else
-		  list = loader.loadTestDataSet("insert1recorda",(DomainDBObject)Class.forName(dbObject).newInstance());
+		  list = loader.loadTestDataSet("insert1recorda",(BaseDBObject)Class.forName(dbObject).newInstance());
 	  
 	  BSONObject elem = list.get(0);
 	  Iterator<String> it = elem.keySet().iterator();

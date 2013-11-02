@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import org.bson.BSONObject;
 
-import com.cloudburo.test.domain.DomainDBObject;
+import com.cloudburo.test.base.BaseDBObject;
 
 public interface PersistentStoreManager {
 	
@@ -18,6 +18,6 @@ public interface PersistentStoreManager {
 	public void connectDB(HashMap<String,String> connectionProps) throws Exception;
 	public BSONObject getCollectionObject(String collection, String id) throws Exception;
 	public long countCollectionObjects(String collection) throws Exception;
-	public void loadTestDataSet( String dataset, DomainDBObject dbo) throws Exception;
+	public void loadTestDataSet( String dataset, BaseDBObject dbo) throws Exception;
 	
 }

@@ -1,12 +1,14 @@
-package com.cloudburo.test;
+package com.cloudburo.test.base;
 
 import java.util.HashMap;
 
 import com.cloudburo.test.db.PersistentStoreManager;
 
-public class RootDriver {
+public class BaseTestDriver {
 	
-	public PersistentStoreManager getPersistentStoreManager (String storeendpoint,String storeport,String storeinstance,
+	protected static PersistentStoreManager persistentStoreManager;
+	
+	public void initalizePersistentStoreManager (String storeendpoint,String storeport,String storeinstance,
 			  String storeuser,String storepassword, String storemanager) throws Exception {
 		HashMap<String,String> props = new HashMap<String,String>();
 		  props.put(PersistentStoreManager.STORE_ENDPOINT, storeendpoint);
@@ -16,10 +18,8 @@ public class RootDriver {
 		  props.put(PersistentStoreManager.STORE_PASSWORD, storepassword);
 		  
 		  // Connect Test Data
-		  PersistentStoreManager dbcontroller = (PersistentStoreManager) Class.forName(storemanager).newInstance();
-		  dbcontroller.connectDB(props);
-		  return dbcontroller;
-
+		  persistentStoreManager = (PersistentStoreManager) Class.forName(storemanager).newInstance();
+		  persistentStoreManager.connectDB(props);
 	}
 
 }
