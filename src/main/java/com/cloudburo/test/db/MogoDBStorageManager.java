@@ -1,5 +1,8 @@
 package com.cloudburo.test.db;
 
+import java.util.Iterator;
+
+import org.bson.BSONObject;
 import org.bson.types.ObjectId;
 
 import com.cloudburo.test.load.CSVTestDataLoader;
@@ -11,7 +14,7 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 
-public class MongoDBController {
+public class MogoDBStorageManager implements PersistentStoreManager {
 
 	DB db;
 	
@@ -29,14 +32,17 @@ public class MongoDBController {
 		coll.drop();
 		coll = db.getCollection(dbo.getDBCollectionName());
 		CSVTestDataLoader csvloader = new com.cloudburo.test.load.CSVTestDataLoader();
-
-        // lets get all the documents in the collection and print them out
-		coll.insert(csvloader.loadTestDataSet(dataset,dbo) );
-        DBCursor cur = coll.find();
+	
+		Iterator<BSONObject> iter = csvloader.loadTestDataSet(dataset,dbo).iterator();
+		while (iter.hasNext())
+			coll.insert((DBObject)iter.next() );
+        
+		// lets get all the documents in the collection and print them out
+		DBCursor cur = coll.find();
 		while (cur.hasNext()) { System.out.println(cur.next());}
 	}
 	
-	public DBObject getCollectionObject(String collection, String id) throws Exception {
+	public BSONObject getCollectionObject(String collection, String id) throws Exception {
 		DBCollection coll = db.getCollection(collection);
 		BasicDBObject query = new BasicDBObject();
         query.put("_id", new ObjectId(id));

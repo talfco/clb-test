@@ -1,49 +1,36 @@
 package com.cloudburo.test;
 
-import java.sql.Date;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import org.bson.BSONObject;
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.support.ui.Select;
 
 import org.testng.Assert;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.AfterSuite;
 
 import com.cloudburo.test.dataobj.CustomerDBObject;
 import com.cloudburo.test.dataobj.DomainDBObject;
-import com.cloudburo.test.dataobj.ProductTypeDBObject;
 import com.cloudburo.test.dataobj.ServiceTemplateDBObject;
-import com.cloudburo.test.db.MongoDBController;
+import com.cloudburo.test.db.MogoDBStorageManager;
 import com.cloudburo.test.load.CSVTestDataLoader;
 import com.cloudburo.test.page.StartPage;
-import com.mongodb.DBObject;
 
 public class TestDriver {
 	
   private static WebDriver driver;	
-  private static MongoDBController dbcontroller;
+  private static MogoDBStorageManager dbcontroller;
   //private static String HOST = "http://stark-coast-2148.herokuapp.com"; // http://localhost:5000
   private static String HOST = "http://localhost:5000"; // http://localhost:5000
 	
@@ -51,7 +38,7 @@ public class TestDriver {
   @BeforeSuite
   public void beforeSuite(String testfile) throws Exception {
 	  System.out.println("Using testset "+testfile);
-	  dbcontroller = new MongoDBController();
+	  dbcontroller = new MogoDBStorageManager();
 	  dbcontroller.connectDB();
 	  dbcontroller.loadTestDataSet(testfile,new CustomerDBObject());
 	  dbcontroller.loadTestDataSet(testfile,new ServiceTemplateDBObject());
@@ -83,11 +70,11 @@ public class TestDriver {
   @Test(description="Testing the insert of a new entry")
   public void testInsertDeleteRecord(String listvalue1, String listvalue2,String collection, String dbobject) throws Exception {
 	  CSVTestDataLoader loader = new CSVTestDataLoader();
-	  List<DBObject> list = loader.loadTestDataSet("insert1recordb",(DomainDBObject)Class.forName(dbobject).newInstance());
+	  List<BSONObject> list = loader.loadTestDataSet("insert1recordb",(DomainDBObject)Class.forName(dbobject).newInstance());
 	  StartPage page = new StartPage(driver);
 	  
 	  
-	  DBObject elem = list.get(0); 
+	  BSONObject elem = list.get(0); 
 	  Iterator<String> it = elem.keySet().iterator();
 	  List<WebElement> primaryList = page.getPrimaryListEntries();
 	  int primListSize = primaryList.size();
@@ -140,7 +127,7 @@ public class TestDriver {
 	  // The selected entry must be the new one added
 	  WebElement selectedEntry = page.getSelectedListEntry();
 	  String uid = selectedEntry.getAttribute("id");
-	  DBObject dobj = dbcontroller.getCollectionObject(collection, uid);
+	  BSONObject dobj = dbcontroller.getCollectionObject(collection, uid);
 	  // Iterate once through the test set
 	  it = elem.keySet().iterator();
 	  while (it.hasNext()) {
@@ -234,13 +221,13 @@ public class TestDriver {
   private void doInPlace(String collection,String mode, String dbObject) throws Exception {
 	  CSVTestDataLoader loader = new CSVTestDataLoader();
 	  
-	  List<DBObject> list = null;
+	  List<BSONObject> list = null;
 	  if (mode.equals("save"))
 		  list = loader.loadTestDataSet("insert1record",(DomainDBObject)Class.forName(dbObject).newInstance());
 	  else
 		  list = loader.loadTestDataSet("insert1recorda",(DomainDBObject)Class.forName(dbObject).newInstance());
 	  
-	  DBObject elem = list.get(0);
+	  BSONObject elem = list.get(0);
 	  Iterator<String> it = elem.keySet().iterator();
 	  // Let's select the first entry
 	  StartPage page = new StartPage(driver);
@@ -286,7 +273,7 @@ public class TestDriver {
 		  chfb.click();		
 	  }
 	  // Retrieve the stored value and check against the one which we entered
-	  DBObject obj = dbcontroller.getCollectionObject(collection, id);
+	  BSONObject obj = dbcontroller.getCollectionObject(collection, id);
 	  it = elem.keySet().iterator();
 	  
 	  while (it.hasNext()) {
@@ -329,7 +316,7 @@ public class TestDriver {
 	  String id = elem.getAttribute("id");
       Assert.assertNotEquals(id, null);
       // Retrieve the value from the DB
-      DBObject obj = dbcontroller.getCollectionObject(collection, id);
+      BSONObject obj = dbcontroller.getCollectionObject(collection, id);
       // Check if the selected list entry is showing the correct values as 
       // retrieved from the DB
       String listPrefix = (String)obj.get(listvalue1);
