@@ -85,9 +85,7 @@ public class CustomerDBObject extends BaseDBObject  {
 	public void setCitizenship(String cz) {
 		this.put("citizenship", cz);
 	}
-	public void setBirthdate(Date btd) {
-		DateTime dt = new DateTime(btd);
-		DateTimeFormatter fmt = ISODateTimeFormat.dateTime();	  
-		this.put("birthdate", fmt.print(dt));
+	public void setBirthdate(Date btd) { 
+		this.put("birthdate", convertDate(btd));
 	}
 }

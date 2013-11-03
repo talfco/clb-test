@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Cloudburo App Platform Load Test Suite">
+  <parameter name="testfile" value="fullload" />
+  <parameter name="appurl" value="http://localhost:5000" />  
+  <parameter name="storeendpoint" value="http://localhost" />
+  <parameter name="storeport" value="5000" />
+  <parameter name="storeinstance" value="v1" />
+  <parameter name="storeuser" value="user" />
+  <parameter name="storepassword" value="" />
+  <parameter name="storemanager" value="com.cloudburo.test.db.RestAPIBasedDBStorageManager" />
+  <!-- beforeSuite triggers the loading of the data -->
+  <test name="Initial Load of " preserve-order="true">
+    <classes>
+      <class name="com.cloudburo.test.InitialLoadTestDriver">
+        <methods>
+          <include name="beforeSuite"/>
+        </methods>
+      </class> 
+    </classes>
+  </test>
+</suite> 
