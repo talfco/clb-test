@@ -4,8 +4,8 @@
                  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
         <modelVersion>4.0.0</modelVersion>
         <groupId>com.ubs.cloudburo</groupId>
-        <artifactId>cloudburo-test</artifactId>
-        <version>1.0</version>
+        <artifactId>clb-test</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
         <properties>
     		<project.custom.encoding>UTF-8</project.custom.encoding>
       		<project.custom.java.version>1.6</project.custom.java.version>
@@ -15,6 +15,12 @@
       		<project.build.outputEncoding>${project.custom.encoding}</project.build.outputEncoding>
       		<project.reporting.outputEncoding>${project.custom.encoding}</project.reporting.outputEncoding>
   		</properties>
+  		<distributionManagement>  
+  			<repository>    
+  				<id>gh-pages</id>    
+  				<url>file:///${basedir}/../clb-test-pages/repository/</url>  
+  			</repository>
+  		</distributionManagement>
         <dependencies>
             <dependency>
             	<groupId>org.mongodb</groupId>
