@@ -11,4 +11,4 @@ This is an early alpha version, more to follow soon...
 
 ## Documentation
 
-For a detailled documentation refer to [http://cloudburo.github.com/docs/opensource/clb-test/](http://cloudburo.github.com/docs/opensource/clb-test)
+For a detailed documentation refer to [http://cloudburo.github.com/docs/opensource/clb-test/](http://cloudburo.github.com/docs/opensource/clb-test)
