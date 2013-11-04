@@ -28,7 +28,9 @@ import org.testng.annotations.Parameters;
 import com.cloudburo.test.base.BaseTestDriver;
 import com.cloudburo.test.dataobj.CustomerDBObject;
 
-
+/**
+ * This is a simple testng Test Driver which doesn't do any test but which will load a test dataset
+ */
 public class InitialLoadTestDriver extends BaseTestDriver {
 
 	 private static final Logger logger = Logger.getLogger(InitialLoadTestDriver.class.getCanonicalName());
@@ -44,6 +46,7 @@ public class InitialLoadTestDriver extends BaseTestDriver {
 		  initalizePersistentStoreManager(storeendpoint, storeport, storeinstance, storeuser, 
 				  storepassword, storemanager);
 		  
+		  // This will load a test data set for the Customer object
 		  persistentStoreManager.loadTestDataSet(testfile,new CustomerDBObject());
 	  }
 	  

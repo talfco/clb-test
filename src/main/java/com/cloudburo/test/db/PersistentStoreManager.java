@@ -24,6 +24,9 @@ import org.bson.BSONObject;
 
 import com.cloudburo.test.base.BaseDBObject;
 
+/**
+ * The base interface which must be implmeneted by a PersistenStoreManager
+ */
 public interface PersistentStoreManager {
 	
 

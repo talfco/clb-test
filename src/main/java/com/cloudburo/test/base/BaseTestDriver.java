@@ -22,6 +22,9 @@ import java.util.HashMap;
 
 import com.cloudburo.test.db.PersistentStoreManager;
 
+/**
+ * A TestDriver must alwas extend the BaseTestDriver
+ */
 public class BaseTestDriver {
 	
 	protected static PersistentStoreManager persistentStoreManager;

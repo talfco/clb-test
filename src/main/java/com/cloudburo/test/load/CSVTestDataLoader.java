@@ -29,7 +29,11 @@ import org.supercsv.prefs.CsvPreference;
 
 import com.cloudburo.test.base.BaseDBObject;
 
-
+/**
+ * CSVTestDataLoader is utility class which is capable to load test data out of an Excel CSV File
+ * The first row of the Excel will define the attribute names which must defined as set operations in a BaseDBObject based class
+ * E.g. 'surName' --> 'setSurName' operations.
+ */
 public class CSVTestDataLoader {
 
     public List<BSONObject> loadTestDataSet(String set, BaseDBObject dboClass) throws Exception {

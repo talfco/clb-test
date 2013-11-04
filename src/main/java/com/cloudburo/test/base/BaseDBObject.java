@@ -27,6 +27,10 @@ import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 import org.supercsv.cellprocessor.ift.CellProcessor;
 
+/**
+ * For each csv file loaded, a BaseDBObject implementation class must be provided, which defines a csvCellProcessor and provides the
+ * relevant set operations
+ */
 @SuppressWarnings("serial")
 public abstract class BaseDBObject extends BasicDBObject {
 	public CellProcessor[] csvCellProcessor;
