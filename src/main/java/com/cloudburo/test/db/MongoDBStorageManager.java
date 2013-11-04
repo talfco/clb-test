@@ -37,8 +37,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * 
- * @author Felix Kuestahler / Cloudburo.ch
  * The MongoDBStorageManager will store the test data set in a nonSQL MongoDB
  */
 public class MongoDBStorageManager implements PersistentStoreManager {

@@ -44,6 +44,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+/**
+ * The RestAPIBasedDBStorageManager will store the test data set via a rest based API following the Cloudburo REST API specification
+ */
 public class RestAPIBasedDBStorageManager implements PersistentStoreManager {
 	
 	private static String urlRequest = "";
