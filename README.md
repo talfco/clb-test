@@ -23,8 +23,13 @@ Add the following entry to your POM:
 
 And the following dependency
 
-
+	<dependency>
+		<groupId>com.cloudburo</groupId>
+		  <artifactId>clb-test</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</dependency>  
 
 ## Documentation
 
 For a detailed documentation refer to [http://cloudburo.github.com/docs/opensource/clb-test/](http://cloudburo.github.com/docs/opensource/clb-test)
+
